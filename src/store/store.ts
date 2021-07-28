@@ -1,5 +1,6 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
+import { createWrapper } from "next-redux-wrapper";
 import appReducer from "./modules/appSlice";
 import contractReducer from "./modules/contractSlice";
 
@@ -22,5 +23,9 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+// export type AppStore = ReturnType<typeof makeStore>;
+
+// const wrapper = createWrapper<AppStore>(makeStore);
 
 export default store;

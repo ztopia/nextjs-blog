@@ -52,6 +52,7 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
+    console.log(error)
     if (error.response) {
       if (error.response.status === 401) {
         store.dispatch(setIsLogin(false));

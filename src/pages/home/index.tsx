@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { Button } from "antd";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { queryCommonData } from "../../services/api/contract";
 
 import SelectLanguage from "../../components/SelectLanguage";
 import {
@@ -10,18 +11,19 @@ import {
   selectContractList,
 } from "../../store/modules/contractSlice";
 import { useAppDispatch, useAppSelector } from "../..//store/hook";
+// import wrapper from "../../store/store";
 
-const Homepage = () => {
+const Homepage = ({ contractList }) => {
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  const contractList = useAppSelector(selectContractList);
+  // const contractList = useAppSelector(selectContractList);
 
-  useEffect(() => {
-    dispatch(getContractList());
-  }, [dispatch, getContractList]);
+  // useEffect(() => {
+  //   dispatch(getContractList());
+  // }, [dispatch, getContractList]);
 
   return (
     <>
@@ -36,10 +38,30 @@ const Homepage = () => {
   );
 };
 
-export const getStaticProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ["common", "home"])),
-  },
-});
+// export const getStaticProps = wrapper.getStaticProps(
+//   (store) =>
+//     async ({ locale }) => {
+//       store.dispatch(getContractList());
+
+//       let props = {
+//         props: {
+//           ...(await serverSideTranslations(locale, ["common", "home"])),
+//         },
+//       };
+//       return props;
+//     }
+// );
+export const getStaticProps = async ({ locale }) => {
+  let fetchContractList = await queryCommonData();
+  let contractList = fetchContractList.data.data.contracts;
+
+  let props = {
+    props: {
+      ...(await serverSideTranslations(locale, ["common", "home"])),
+      contractList,
+    },
+  };
+  return props;
+};
 
 export default Homepage;

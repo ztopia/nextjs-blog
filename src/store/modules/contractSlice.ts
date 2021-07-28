@@ -17,13 +17,9 @@ export const initialState: AppStake = {
 
 export const getContractList = createAsyncThunk(
   "contract/queryCommonData",
-  async (thunkApi) => {
-    try {
-      const response = await queryCommonData();
-      return response;
-    } catch (error) {
-      // return thunkApi.rejectWithValue(error);
-    }
+  async () => {
+    const response = await queryCommonData();
+    return response;
   }
 );
 
