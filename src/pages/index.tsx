@@ -1,10 +1,18 @@
-import styled from "styled-components";
+import Head from "next/head";
 
-const Title = styled.h1`
-  color: skyblue;
-  font-size: 50px;
-`;
+import Container from "../components/Container";
 
-export default function Home() {
-  return <Title>ztopia automatically deploy</Title>;
+export default function Dashboard() {
+  return (
+    <Container
+      id="dashboard-page"
+      className="py-4 md:py-8 lg:py-12"
+      maxWidth="2xl"
+    >
+      <Head>
+        <title>Dashboard | ccfox</title>
+        <meta name="description" content="ccfox" />
+      </Head>
+    </Container>
+  );
 }
