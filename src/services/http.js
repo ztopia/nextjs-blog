@@ -7,12 +7,13 @@ import store from "./../store/store";
 import noTokenUrl from "./noTokenUrl";
 import { getInjectInfo, removeInjectInfo } from "../functions/info";
 import { setIsLogin } from "../store/modules/appSlice";
-import i18n from "next-i18next";
+import { i18n } from "next-i18next";
 import { message } from "antd";
 
 // axios 配置
 axios.defaults.timeout = 10000;
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+const csr = process.browser;
 
 // http request 拦截器
 axios.interceptors.request.use(
@@ -44,15 +45,15 @@ axios.interceptors.response.use(
     if (resData.hasOwnProperty("code")) {
       const index = filterArr.findIndex((item) => item === resData.code);
       if (index > -1) return response;
-      if (resData.code) {
-        const msgObj = i18n.t(`ResCode.${resData.code}`);
+      if (resData.code && csr && i18n?.store?.data[i18n.language]) {
+        const msgObj = i18n?.store?.data[i18n.language]?.code[resData.code];
         message.error(msgObj);
       }
     }
     return response;
   },
   (error) => {
-    console.log(error)
+    console.log(error);
     if (error.response) {
       if (error.response.status === 401) {
         store.dispatch(setIsLogin(false));

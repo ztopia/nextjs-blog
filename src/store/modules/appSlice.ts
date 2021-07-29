@@ -8,7 +8,7 @@ interface AppStake {
 
 export const initialState: AppStake = {
   appStatus: "idle",
-  isLogin: false,
+  isLogin: true,
   userHabit: {
     upDownColor: "0", // 1001：涨跌色，0：绿涨红跌,1：红涨绿跌，
     currency: "CNY", // 1003：计价方式,
@@ -36,6 +36,7 @@ export const slice = createSlice({
 
 export const { setAppStatus, setIsLogin } = slice.actions;
 
-export const selectAppStatus = (state) => state.appStatus;
+export const selectAppStatus = (state) => state.app.appStatus;
+export const selectIsLogin = (state) => state.app.isLogin;
 
 export default slice.reducer;

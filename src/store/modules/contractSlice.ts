@@ -26,7 +26,11 @@ export const getContractList = createAsyncThunk(
 export const slice = createSlice({
   name: "contract",
   initialState,
-  reducers: {},
+  reducers: {
+    setContractList(state, { payload }) {
+      state.contractList = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getContractList.fulfilled, (state, { payload }) => {
       if (payload?.data?.code === 0) {
@@ -43,7 +47,7 @@ export const slice = createSlice({
   },
 });
 
-export const {} = slice.actions;
+export const { setContractList } = slice.actions;
 
 export const selectContractList = (state: AppState) =>
   state.contract.contractList;
